@@ -1,0 +1,38 @@
+{% extends "layout.html" %} {% block content %}
+<h1>Admin Dashboard</h1>
+<a href="{{ url_for('create_event') }}" class="btn btn-primary"
+  >Create New Event</a
+>
+
+<h2 style="margin-top: 2rem">All Events</h2>
+{% for event in events %}
+<div class="event-card">
+  <h3>
+    <a href="{{ url_for('view_event', event_id=event.id) }}"
+      >{{ event.name }}</a
+    >
+  </h3>
+  <p><strong>Date:</strong> {{ event.date.strftime('%Y-%m-%d %H:%M') }}</p>
+  <p><strong>Location:</strong> {{ event.location }}</p>
+  <p><strong>Fee:</strong> ${{ "%.2f"|format(event.registration_fee) }}</p>
+  <p>
+    <strong>Available Seats:</strong> {{ event.max_seats -
+    event.registrations|length }}
+  </p>
+
+  <div style="margin-top: 1rem">
+    <a
+      href="{{ url_for('edit_event', event_id=event.id) }}"
+      class="btn btn-primary"
+      >Edit</a
+    >
+    <form
+      action="{{ url_for('delete_event', event_id=event.id) }}"
+      method="POST"
+      style="display: inline"
+    >
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+  </div>
+</div>
+{% endfor %} {% endblock %}

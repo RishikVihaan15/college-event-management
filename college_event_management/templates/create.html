@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f6f9fc;
+    margin: 0;
+    padding: 0;
+  }
+
+  .create-container {
+    background: white;
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+
+  form div {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #444;
+  }
+
+  input[type="text"],
+  input[type="datetime-local"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+  textarea {
+    resize: vertical;
+    height: 100px;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<div class="create-container">
+  <h2>Create a New Event</h2>
+  <form method="POST" action="{{ url_for('create') }}">
+    <div>
+      <label>Event Name:</label>
+      <input type="text" name="name" required>
+    </div>
+    <div>
+      <label>Description:</label>
+      <textarea name="description" required></textarea>
+    </div>
+    <div>
+      <label>Date & Time:</label>
+      <input type="datetime-local" name="date" required>
+    </div>
+    <div>
+      <label>Location:</label>
+      <input type="text" name="location" required>
+    </div>
+    <div>
+      <button type="submit">Create Event</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

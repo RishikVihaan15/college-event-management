@@ -1,0 +1,55 @@
+{% extends "layout.html" %} {% block content %}
+<h2>Chat Support</h2>
+<div style="display: flex; flex-direction: column; height: 500px">
+  <div
+    style="
+      flex: 1;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    "
+  >
+    {% for msg in messages %}
+    <div
+      style="margin-bottom: 1rem; padding: 0.75rem; 
+                   background: {% if msg.sender_id == current_user.id %}#e3f2fd{% else %}#f1f1f1{% endif %}; 
+                   border-radius: 8px;"
+    >
+      <strong
+        >{% if msg.sender_id == current_user.id %}You{% else %}{{
+        msg.sender.username }}{% endif %}:</strong
+      >
+      <p>{{ msg.content }}</p>
+      <small>{{ msg.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+    </div>
+    {% endfor %}
+  </div>
+
+  <form method="POST" style="display: flex">
+    <textarea
+      name="content"
+      style="
+        flex: 1;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px 0 0 4px;
+      "
+      placeholder="Type your message..."
+      required
+    ></textarea>
+    <button
+      type="submit"
+      style="
+        padding: 0 1.5rem;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 0 4px 4px 0;
+      "
+    >
+      Send
+    </button>
+  </form>
+</div>
+{% endblock %}

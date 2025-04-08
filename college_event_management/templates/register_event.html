@@ -1,0 +1,71 @@
+{% extends "layout.html" %} {% block content %}
+<div class="event-card">
+  <h2>Register for {{ event.name }}</h2>
+  <p><strong>Date:</strong> {{ event.date.strftime('%Y-%m-%d %H:%M') }}</p>
+  <p><strong>Location:</strong> {{ event.location }}</p>
+  <p>
+    <strong>Registration Fee:</strong> ₹{{ "%.2f"|format(event.registration_fee)
+    }}
+  </p>
+  <p>
+    <strong>Available Seats:</strong> {{ event.max_seats -
+    event.registrations|length }}
+  </p>
+
+  <form id="registrationForm" method="POST" style="margin-top: 1.5rem">
+    <div>
+      <p>
+        <strong>Amount to Pay:</strong> ${{
+        "%.2f"|format(event.registration_fee) }}
+      </p>
+      <input
+        type="hidden"
+        name="payment_amount"
+        value="{{ event.registration_fee }}"
+      />
+    </div>
+    <button type="submit">Complete Registration</button>
+    <a href="{{ url_for('student_dashboard') }}" style="margin-left: 1rem"
+      >Cancel</a
+    >
+  </form>
+
+  <div id="registrationResult" style="margin-top: 1rem"></div>
+</div>
+
+<script>
+  document
+    .getElementById("registrationForm")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      fetch("{{ url_for('register_event', event_id=event.id) }}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(new FormData(this)),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const resultDiv = document.getElementById("registrationResult");
+          if (data.success) {
+            resultDiv.innerHTML = `
+                <div class="alert alert-success">
+                    ${data.message}<br>
+                    You will be notified when your registration is confirmed.
+                </div>
+            `;
+            document.getElementById("registrationForm").style.display = "none";
+          } else {
+            resultDiv.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+          }
+        })
+        .catch((error) => {
+          document.getElementById("registrationResult").innerHTML = `
+            <div class="alert alert-danger">An error occurred. Please try again.</div>
+        `;
+        });
+    });
+</script>
+{% endblock %}
