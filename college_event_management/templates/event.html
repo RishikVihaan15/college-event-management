@@ -1,0 +1,38 @@
+{% extends "layout.html" %} {% block content %}
+<div class="event-card">
+  <h2>{{ event.name }}</h2>
+  <p><strong>Date:</strong> {{ event.date.strftime('%Y-%m-%d %H:%M') }}</p>
+  <p><strong>Location:</strong> {{ event.location }}</p>
+  <p>
+    <strong>Registration Fee:</strong> ${{ "%.2f"|format(event.registration_fee)
+    }}
+  </p>
+  <p><strong>Description:</strong> {{ event.description }}</p>
+
+  {% if registered %}
+  <div
+    style="
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 4px;
+    "
+  >
+    <h3>Your Registration</h3>
+    <p>
+      <strong>Payment Amount:</strong> ${{
+      "%.2f"|format(registered.payment_amount) }}
+    </p>
+    <p>
+      <strong>Status:</strong>
+      <span
+        style="color: {% if registered.is_confirmed %}#28a745{% else %}#ffc107{% endif %}; font-weight: 500;"
+      >
+        {% if registered.is_confirmed %}Confirmed{% else %}Pending Approval{%
+        endif %}
+      </span>
+    </p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
