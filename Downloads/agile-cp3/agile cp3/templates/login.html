@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - College Event Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #49f4aa;
+        }
+        .container {
+            background: rgb(187, 246, 249);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        select, input, button {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to College Event Management System</h1>
+    
+    <div class="container">
+        <h2>Login</h2>
+        <form action="{{ url_for('login') }}" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
+
+            <label for="role">Login as:</label>
+            <select id="role" name="role">
+                <option value="Student">Student</option>
+                <option value="Admin">Admin</option>
+            </select><br>
+
+            <button type="submit">Login</button>
+        </form>
+        
+        <p id="role-display">Selected Role: Student</p>
+
+        <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+    </div>
+
+    <script>
+        document.getElementById('role').addEventListener('change', function() {
+            document.getElementById('role-display').innerText = "Selected Role: " + this.value;
+        });
+    </script>
+
+</body>
+</html>

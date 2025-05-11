@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f4f8;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .logout-link {
+            margin: 20px 0;
+            display: inline-block;
+            padding: 10px 16px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 6px;
+        }
+
+        .logout-link:hover {
+            background-color: #c0392b;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        li {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        li span {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome {{ current_user.username }}</h1>
+    <a class="logout-link" href="{{ url_for('logout') }}">Logout</a>
+
+    <h2>Upcoming Events</h2>
+    <ul>
+        {% for event in events %}
+            <li>
+                <a href="{{ url_for('event', event_id=event.id) }}">{{ event.name }}</a>
+                <span>{{ event.date }} at {{ event.location }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
